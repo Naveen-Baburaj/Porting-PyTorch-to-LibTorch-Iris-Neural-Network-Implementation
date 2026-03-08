@@ -54,47 +54,36 @@ class Net(nn.Module):
         return self.output(x)
     
     
-model = Net()
-print(model)
-
-num_epochs = 200
-train_accuracies, test_accuracies = [], []
-
-loss_function = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(params=model.parameters(), lr=0.01)
-
-for epoch in range(num_epochs):
-    # Train set
-    for X, y in train_loader:
-        preds = model(X)
-        pred_labels = torch.argmax(preds, axis=1)
-        loss = loss_function(preds, y)
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-    train_accuracies.append(
-        100 * torch.mean((pred_labels == y).float()).item()
-    )
+def train_model(train_loader, test_loader, model, lr=0.01, num_epochs=200):
+    train_accuracies, test_accuracies = [], []
+    losses = []
+    loss_function = nn.CrossEntropyLoss()
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=lr)
     
-    # Test set
-    X, y = next(iter(test_loader))
-    pred_labels = torch.argmax(model(X), axis=1)
-    test_accuracies.append(
-        100 * torch.mean((pred_labels == y).float()).item()
-    )
+    for epoch in range(num_epochs):
+        for X, y in train_loader:
+            preds = model(X)
+            pred_labels = torch.argmax(preds, axis=1)
+            loss = loss_function(preds, y)
+            losses.append(loss.detach().numpy())
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+        train_accuracies.append(
+            100 * torch.mean((pred_labels == y).float()).item()
+        )
+        
+        X, y = next(iter(test_loader))
+        pred_labels = torch.argmax(model(X), axis=1)
+        test_accuracies.append(
+            100 * torch.mean((pred_labels == y).float()).item()
+        )
+ 
+    return train_accuracies[-1], test_accuracies[-1]
 
-fig = plt.figure(tight_layout=True)
-gs = gridspec.GridSpec(nrows=2, ncols=1)
 
-ax = fig.add_subplot(gs[0, 0])
-ax.plot(train_accuracies)
-ax.set_xlabel("Epoch")
-ax.set_ylabel("Training accuracy")
+a,b=train_model(train_loader, test_loader, Net())
 
-ax = fig.add_subplot(gs[1, 0])
-ax.plot(test_accuracies)
-ax.set_xlabel("Epoch")
-ax.set_ylabel("Test accuracy")
-
-fig.align_labels()
-plt.show()
+print(f"Final training accuracy: {a:.2f}%")
+print(f"Final testing accuracy: {b:.2f}%")
