@@ -1,0 +1,3 @@
+Modification Made:
+The training accuracy computation was updated so that accuracy is calculated across all training batches within an epoch, rather than only the final batch.
+

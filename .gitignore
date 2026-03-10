@@ -2,7 +2,7 @@ iris_pytorch.ilk
 iris_pytorch.obj
 iris_pytorch.pdb
 vc140.pdb
-C++/iris_pytorch.exe
-C++/iris_pytorch.cpp
 .gitignore
 .vscode/
+build/
+C++/build/
