@@ -9,6 +9,15 @@ The goal is to show the process of translating a PyTorch-based machine learning 
 
 ---
 
+## Source of the Python Implementation
+
+The Python implementation used in this project is extracted and adapted from the Appsilon tutorial:
+
+**PyTorch Neural Network Tutorial**  
+https://www.appsilon.com/post/pytorch-neural-network-tutorial
+
+In this project, the Python code is used as the **reference implementation**, which is then **ported to C++ using LibTorch**.
+
 ## Dataset
 
 The project uses the classic **Iris dataset**, which contains:
