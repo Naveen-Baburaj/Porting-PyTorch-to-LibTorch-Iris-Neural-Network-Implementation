@@ -23,7 +23,8 @@ struct IrisData
 IrisData load_iris_csv(string filename)  
 {
     ifstream file(filename);
-    if (!file.is_open()) {
+    if (!file.is_open()) 
+    {
     cout << "Could not open file: " << filename << endl;
     exit(1);
 }
@@ -124,7 +125,7 @@ struct Net2Impl : nn::Module  //inherit from nn::Module
 
     Tensor forward(Tensor x) 
     {
-        x = relu(input->forward(x));
+        x = input->forward(x);
 
         for (int i = 0; i < n_layers; ++i) 
         {
