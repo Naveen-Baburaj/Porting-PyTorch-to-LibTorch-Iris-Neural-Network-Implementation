@@ -32,3 +32,9 @@ The project uses the classic **Iris dataset**, which contains:
   - Setosa
   - Versicolor
   - Virginica
+
+---
+
+## Author
+
+Naveen Baburaj
